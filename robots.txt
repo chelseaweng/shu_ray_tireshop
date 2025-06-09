@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /#services
+Allow: /#about
+Allow: /#contact
+
+# Sitemap location
+Sitemap: https://www.shuray-tires.com/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 10 
