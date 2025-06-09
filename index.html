@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#536473">
+    <title>蓄銳輪胎 - 專業輪胎服務</title>
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/web-app-manifest-512x512.png">
+    <link rel="manifest" href="images/site.webmanifest">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a4d7c 0%, #2d8e6e 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 8px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .logo:hover {
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            filter: contrast(1.05);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #1a4d7c 0%, #2d8e6e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-left: 10px;
+            opacity: 0.9;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #a3e4d7;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            position: relative;
+            height: 80vh;
+            overflow: hidden;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(0, 0, 0, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: 30px;
+            background: rgba(26, 77, 124, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #5D84A6, #9BAEBF);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(193, 214, 242, 0.2);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(45deg, #9BAEBF, #5D84A6);
+            box-shadow: 0 6px 20px rgba(92, 131, 165, 0.3);
+            border: 2px solid rgba(193, 214, 242, 0.4);
+        }
+
+        .slider-controls {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 3;
+            background: rgba(82, 99, 114, 0.5);
+            padding: 10px 15px;
+            border-radius: 30px;
+        }
+
+        .slider-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(193, 214, 242, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .slider-dot:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .slider-dot.active {
+            background: #C2D7F2;
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .slider-arrow {
+            background: rgba(82, 99, 114, 0.6);
+            color: white;
+            border: 2px solid rgba(193, 214, 242, 0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+        }
+
+        .slider-arrow:hover {
+            background: rgba(92, 131, 165, 0.8);
+            transform: translateY(-50%) scale(1.1);
+            border-color: rgba(193, 214, 242, 0.4);
+        }
+
+        .slider-arrow.prev {
+            left: 30px;
+        }
+
+        .slider-arrow.next {
+            right: 30px;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #F2F2F2 0%, #FFFFFF 100%);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #1a4d7c, #2d8e6e);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(154, 174, 191, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(26, 77, 124, 0.2);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(154, 174, 191, 0.2);
+            border-color: rgba(92, 131, 165, 0.3);
+        }
+
+        .service-icon {
+            color: #2d8e6e;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .about-image {
+            text-align: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid rgba(26, 77, 124, 0.1);
+            border-radius: 15px;
+            transform: rotate(-2deg);
+            z-index: 1;
+        }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid rgba(45, 142, 110, 0.1);
+            border-radius: 15px;
+            transform: rotate(2deg);
+            z-index: 1;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-image img:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #1a4d7c 0%, #2d8e6e 100%);
+            color: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #C2D7F2;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #ffffff;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(92, 131, 165, 0.1);
+        }
+
+        .contact-item:hover {
+            background: #D1E2F7;
+            transform: translateX(10px);
+            border-color: rgba(92, 131, 165, 0.2);
+        }
+
+        .contact-icon {
+            color: #536473;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .contact-item div {
+            color: #536473;
+        }
+
+        .contact-item a {
+            color: #536473 !important;
+            text-decoration: none;
+        }
+
+        .contact-item strong {
+            color: #536473;
+        }
+
+        .contact-form {
+            background: rgba(193, 214, 242, 0.1);
+            border: 1px solid rgba(193, 214, 242, 0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #C2D7F2;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #1a4d7c, #2d8e6e);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(92, 131, 165, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a4d7c;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero {
+                height: 50vh;
+            }
+
+            .slider-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+            }
+
+            .slider-arrow.prev {
+                left: 15px;
+            }
+
+            .slider-arrow.next {
+                right: 15px;
+            }
+
+            .slider-controls {
+                bottom: 20px;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-widgets {
+                bottom: 80px;
+                right: 10px;
+            }
+
+            .floating-widgets .widget {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                margin-top: 2rem;
+            }
+
+            .about-image img {
+                max-width: 100%;
+            }
+        }
+
+        /* Floating Widgets */
+        .floating-widgets {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .widget {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .phone-widget {
+            background: #25D366 !important;
+            color: #FFFFFF !important;
+            border: 2px solid #FFFFFF;
+        }
+
+        .phone-widget:hover {
+            background: #128C7E !important;
+            border-color: #FFFFFF;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .line-widget {
+            background: #00B900 !important;
+            color: white;
+        }
+
+        .line-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .widget:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="images/logo.png" alt="蓄銳輪胎">
+                <span class="logo-text">蓄銳輪胎</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">首頁</a></li>
+                <li><a href="#services">服務項目</a></li>
+                <li><a href="#about">關於我們</a></li>
+                <li><a href="#contact">聯絡我們</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-slider" id="heroSlider">
+            <div class="slide active" style="background-image: url('images/slide1.jpg')"></div>
+            <div class="slide" style="background-image: url('images/slide2.jpg')"></div>
+            <div class="slide" style="background-image: url('images/slide3.jpg')"></div>
+            <div class="slide" style="background-image: url('images/slide4.jpg')"></div>
+        </div>
+        
+        <div class="hero-content">
+            <p>專業輪胎服務 · 品質保證 · 安全第一</p>
+        </div>
+        
+        <div class="slider-controls">
+            <span class="slider-dot active" data-slide="0"></span>
+            <span class="slider-dot" data-slide="1"></span>
+            <span class="slider-dot" data-slide="2"></span>
+            <span class="slider-dot" data-slide="3"></span>
+        </div>
+        
+        <button class="slider-arrow prev" onclick="changeSlide(-1)">❮</button>
+        <button class="slider-arrow next" onclick="changeSlide(1)">❯</button>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">服務項目</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>輪胎銷售與服務</h3>
+                    <p>各大廠牌全新輪胎、優質中古胎，專業調胎及更換服務，確保行車安全與舒適。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔧</div>
+                    <h3>輪胎維修</h3>
+                    <p>專業內外補胎服務，快速解決輪胎漏氣問題，讓您安心上路。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚡</div>
+                    <h3>電動車專業服務</h3>
+                    <p>電動車輪胎維護、保養及維修，專業技師確保您的電動車最佳性能。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3>四輪定位</h3>
+                    <p>先進設備進行精準四輪定位，改善輪胎磨損，提升行車穩定性。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔍</div>
+                    <h3>輪胎健檢</h3>
+                    <p>專業輪胎健康檢測，及早發現問題，預防行車安全隱患。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚙️</div>
+                    <h3>快速保養</h3>
+                    <p>機油更換、底盤維修等快速保養服務，當日完工。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔋</div>
+                    <h3>油電混合車服務</h3>
+                    <p>油電車專業保養與維修，兼顧性能與環保。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏆</div>
+                    <h3>專業優勢</h3>
+                    <p>• 25年專業技師<br>• 先進設備<br>• 價格透明<br>• 當日完工</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🌟</div>
+                    <h3>全車系服務</h3>
+                    <p>服務範圍包含國產車、進口車、電動車、油電混合車，專業技術保證。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>關於蓄銳輪胎</h2>
+                    <p>蓄銳輪胎擁有多年專業輪胎服務經驗，致力於為客戶提供最優質的輪胎解決方案。我們擁有專業的技師團隊和先進的設備，確保每一項服務都達到最高標準。</p>
+                    <p>我們的使命是讓每一位客戶都能享受安全、舒適的行車體驗。無論是輪胎更換、維修還是保養，我們都以客戶滿意為最高目標。</p>
+                    <p>選擇蓄銳輪胎，就是選擇專業與信賴。</p>
+                </div>
+                <div class="about-image">
+                    <img src="images/about-shop.jpg" alt="蓄銳輪胎專業服務">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">聯絡我們</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>聯絡資訊</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <strong>地址：</strong><br>
+                            台北市南港區東新街10之6號
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <strong>電話：</strong><br>
+                            <a href="tel:+886-2-2789-0919" style="color: white; text-decoration: none;">02 2789 0919</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <strong>手機：</strong><br>
+                            <a href="tel:+886-910-106-680" style="color: white; text-decoration: none;">0910-106-680</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" alt="LINE" style="width: 24px; height: 24px;">
+                        </div>
+                        <div>
+                            <strong>LINE ID：</strong><br>
+                            <a href="https://line.me/ti/p/0910-106-680" target="_blank" style="color: white; text-decoration: none;">0910-106-680</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div>
+                            <strong>營業時間：</strong><br>
+                            週一至週六 9:00-19:00<br>
+                            週日 休息
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>位置資訊</h3>
+                    <div style="margin-bottom: 2rem;">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.5290564762163!2d121.58328739999997!3d25.0500515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442ab1839a2a961%3A0x99d5a06b20313029!2z6JOE6Yqz6Lyq6IOOIOiqv-iDjiDoo5zog47vvIjlhafoo5wv5aSW6KOc77yJ6Lyq6IOO5pu05o-bIOiThOmKs-Wbm-i8quWumuS9jSDpm7vli5Xou4rovKrog47oo5zog47oqr_og47lm5vovKrlrprkvY0g5rK56Zu76LuK6Lyq6IOO6KOc6IOO6Kq_6IOO5Zub6Lyq5a6a5L2NIOiThOmKs-W_q-mAn-S_nemkiiDljZfmuK_ovKrog47oqr_og44g6KOc6IOOIOi8quiDjuWBpeaqouOAgeapn-ayueabtOaPmw!5e0!3m2!1sen!2stw!4v1749415979970!5m2!1sen!2stw"
+                            width="100%" 
+                            height="300" 
+                            style="border:0; border-radius: 10px;" 
+                            allowfullscreen="" 
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <p style="color: #F2CE16; text-align: center; margin-bottom: 1rem;">
+                        📍 台北市南港區東新街10之6號
+                    </p>
+                    <p style="text-align: center; color: rgba(255,255,255,0.8);">
+                        歡迎來店洽詢或事先來電預約服務時間
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Widgets -->
+    <div class="floating-widgets">
+        <a href="tel:+886-910-106-680" class="widget phone-widget" title="撥打電話">
+            <span style="color: white;">📞</span>
+        </a>
+        <a href="https://line.me/ti/p/0910-106-680" target="_blank" class="widget line-widget" title="加入LINE">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" alt="LINE" class="line-icon">
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 蓄銳輪胎. 版權所有. | 專業輪胎服務 · 值得信賴</p>
+        </div>
+    </footer>
+
+    <script>
+        // 簡化的輪播功能
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            }
+            
+            showSlide(currentSlide);
+        }
+
+        // 自動輪播
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+
+        // 點擊輪播點切換
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe service cards and other elements
+        document.querySelectorAll('.service-card, .about-text, .contact-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
